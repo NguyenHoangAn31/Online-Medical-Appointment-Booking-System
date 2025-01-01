@@ -1,0 +1,25 @@
+GET http://localhost:8080/api/user/searchgmail/anphung311002@gmail.com
+
+
+POST http://localhost:8080/api/user/registerbygmail
+Content-Type: application/json
+
+{
+  "fullName": "nguyenhoangan",
+    "phone": "0347809470",
+    "email": "anphung311002@gmail.com",
+    "provider": "gmail",
+    "roleId": 1,
+    "status": 1
+}
+
+
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "username":"0908333333",
+  "keycode":"123456",
+  "provider":"phone"
+}
+
