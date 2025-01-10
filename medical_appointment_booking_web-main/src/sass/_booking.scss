@@ -1,0 +1,464 @@
+.booking__search {
+    width: 100%;
+    padding: 30px 0;
+    position: relative;
+    margin-bottom: 20px;
+    .booking__search-icon {
+        position: absolute;
+        left: 20px;
+        top: 45px;
+        z-index: 10;
+        font-size: 30px;
+        color: rgba(0, 0, 0, 0.5);
+    }
+    .booking__search-input {
+        width: 100%;
+        padding: 25px 30px;
+        border-radius: 20px;
+        border: 0;
+        box-shadow: var(--boxShadow);
+        outline: none;
+        position: relative;
+        left: 0px;
+        padding-top: 20px;
+        padding-bottom: 15px;
+        padding-left: 60px;
+        padding-right: 15px;
+    }
+}
+.booking_title {
+    font-size: 30px;
+    font-weight: 500;
+    color: #000;
+    margin-bottom: 30px;
+}
+
+.booking__catagory {
+    width: 100%;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: var(--boxShadow);
+    .title {
+        font-size: 16px;
+        font-weight: bold;
+        color: rgba(0, 0, 0, 0.4);
+    }
+    .services {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        justify-content: space-between;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        .service__item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            border-radius: 50px;
+            background-color: rgba(184, 183, 183, 0.3);
+            gap: 10px;
+            cursor: pointer;
+            &:hover {
+                background-color: transparent;
+                border: 1px solid #0d69fc;
+                color: #0d69fc;
+            }
+            .service__item-img {
+                width: 20px;
+                height: 20px;
+                text-align: center;
+            }
+            .service__item-name {
+                font-size: 14px;
+                align-items: center;
+                font-weight: 500;
+            }
+        }
+        .service__item.active {
+            background-color: transparent;
+            border: 1px solid #0d69fc;
+            color: #0d69fc;
+        }
+    }
+}
+
+.booking__list {
+    width: 100%;
+    height: auto;
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: var(--boxShadow);
+    margin-top: 20px;
+    padding: 30px;
+    .title {
+        font-size: 16px;
+        font-weight: bold;
+        color: rgba(0, 0, 0, 0.4);
+    }
+    .card__body {
+         margin-top: 20px;
+        .card__doctor {
+            width: 100%;
+            height: auto;
+            background-color: #fff;
+            border: 1px solid #e1e1e1;
+            border-radius: 30px;
+            padding: 15px;
+            display: flex !important;
+            justify-content: flex-start;
+            gap: 15px;
+            align-items: center;
+            cursor: pointer;
+            //flex-direction: column;
+           // align-items: center;
+            .doctr_image {
+                width: 80px;
+                height: 80px;
+                border-radius: 20px;
+                box-shadow: var(--boxShadow);
+                padding: 0px 5px;
+                background-color: #fff;
+                overflow: hidden;
+                img {
+                    max-width: 100%;
+                    height: 100%;
+                }
+            }
+            .doctr_info {
+                width: 50% !important;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                flex: 1;
+                .name {
+                    font-size: 15px;
+                    font-weight: bold;
+                }
+                .department {
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: rgba(0, 0, 0, 0.5);
+                }
+                .icon {
+                    color: #000;
+                    font-size: 14px;
+                    font-weight: bold;
+                    .icon_item {
+                        font-size: 20px;
+                        color: #0d69fc;
+                    }
+                }
+            }
+        }
+        .card__doctor.active {
+            background-color: rgba(61, 137, 251, 0.3);
+            border: 1px solid rgba(0, 102, 255, 0.9);
+            color: rgba(0, 0, 0, 0.8);
+        }
+    }
+}
+
+.booking__date {
+    width: 100%;
+    height: auto;
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: var(--boxShadow);
+    margin-top: 20px;
+    padding: 30px;
+    .header_date {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1.5px solid rgba(0, 0, 0, 0.2);
+        padding-bottom: 20px;
+        .title {
+            font-size: 16px;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.4);
+        }
+        .date_choose_input {
+            .input__group {
+                position: relative;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+                padding-bottom: 10px;
+                .input_date {
+                    width: 200px;
+                    outline: none;
+                    border: none;
+                    padding-left: 30px;
+                    color: #000;
+                    font-weight: bold;
+                    text-align: center;
+                }
+                .input_group-text {
+                    position: absolute;
+                    top: 4px;
+                    left: 15%;
+                }
+            }
+        }
+    }
+    .body_day {
+        display: grid;
+        grid-template-columns: repeat(9, 1fr);
+        gap: 20px;
+        margin-top: 20px;
+        padding: 0 20px;
+        .day_item {
+            background-color: rgb(255, 255, 255);
+            border-radius: 5px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            width: 50px;
+            padding: 10px 0;
+            cursor: pointer;
+            .day-title {
+                font-size: 14px;
+                font-weight: 500;
+                color: rgba(78, 76, 76, 0.6);
+            }
+            .day-number {
+                font-size: 15px;
+                font-weight: bold;
+            }
+        }
+        .day_item.active {
+            background-color: rgba(0, 102, 255, 0.7);
+            color: #fff;
+            & > .day-title {
+                color: #ddcccc;
+            }
+        }
+        button{
+            width: 30px;
+            height: 30px;
+            border: 0;
+            background-color: transparent;
+            // background-color: #4C94FF;
+            // border-radius: 50%;
+        }
+    }
+    .body_date {
+        margin-top: 30px;
+        margin-bottom: 30px;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+        .hour_item {
+            padding: 10px 25px;
+            background-color: rgba(208, 204, 199, 0.2);
+            border-radius: 30px;
+            text-align: center;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.6);
+            cursor: pointer;
+        }
+        .hour_item.active {
+            background-color: rgba(74, 146, 253, 0.2);
+            border: 1px solid rgba(117, 172, 255, 0.8);
+            color: #4f8eec;
+        }
+        .hour_item.disabled {
+            opacity: 0.5;
+        }
+    }
+}
+
+.footer_date {
+    width: 100%;
+    height: 50px;
+    background-color: rgba(217, 238, 83, 0.2);
+    border-radius: 15px;
+    border: 1.5px solid rgba(217, 238, 83, 0.9);
+    box-shadow: var(--boxShadow);
+    line-height: 50px;
+    .date_view {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .date_view_day {
+            padding-left: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            .hour {
+                color: rgb(88, 88, 88);
+                padding-left: 10px;
+            }
+        }
+        .btn__booking-appointment {
+            height: 100%;
+            background-color: rgba(217, 238, 83, 1);
+            border-radius: 15px;
+            padding: 0 40px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            &:hover{
+                background-color: rgb(221, 255, 0);
+            }
+        }
+    }
+}
+
+.doctor__profile {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: var(--boxShadow);
+    margin-top: 20px;
+    padding: 50px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    .info__card {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+        .img__doctor {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            border-radius: 30px;
+            background-color: #fff;
+            box-shadow: var(--boxShadow);
+            overflow: hidden;
+            object-fit: contain;
+            // padding: 10px;
+        }
+        .doctor_info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            .name {
+                font-size: 20px;
+                font-weight: bold;
+            }
+            .department {
+                color: rgba(0, 0, 0, 0.5);
+            }
+        }
+        .doctor_contact {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            .contact_icon {
+                width: 60px;
+                height: 60px;
+                border: 1px solid rgba(217, 238, 83, 1);
+                border-radius: 50%;
+                font-size: 22px;
+                background-color: rgba(217, 238, 83, 0.1);
+                color: #000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                &:hover {
+                    background-color: rgba(217, 238, 83, 1);
+                }
+            }
+        }
+    }
+
+    .biography {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.7);
+        }
+        .content {
+            border: 1px solid rgba(217, 238, 83, 1);
+            padding: 20px;
+            border-radius: 15px;
+        }
+    }
+    .feedback{
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        .title{
+            font-size: 22px;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.7);
+        }
+        .feedback_content{
+           // border: 1px solid rgba(217, 238, 83, 1);
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #fff;
+            box-shadow: var(--boxShadow);
+            margin-bottom: 10px;
+            .feedback__title{
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 20px;
+                margin-bottom: 10px;
+                img{
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    box-shadow: var(--boxShadow);
+                }
+                .name__rate{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    //gap: -10px;
+                    .name{
+                        font-size: 16px;
+                        font-weight: bold;
+                    }
+                    .rate{
+                        display: flex;
+                        justify-content: flex-start;
+                        gap: 10px;
+                        color: rgb(255, 132, 0);
+                        font-size: 14px;
+                    }
+                }
+            }
+            .feedback__content{
+                font-size: 13px;
+                text-align: justify;
+            }
+        }
+    }
+}
+
+
+.slider-container .slick-slide {
+    margin-right: 10px; /* Thay đổi giá trị này để điều chỉnh khoảng cách giữa các thẻ */
+  }
+
+  .modal__payment{
+    width: 400px;
+    height: 300px;
+    border-radius: 15px;
+    z-index: 100px;
+    background-color: #fff;
+    box-shadow: var(--boxShadow);
+  }
+
+  .payment_choose{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 50px;
+  }
+
+  .img_payment{
+    width: 100px;
+    cursor: pointer;
+  }

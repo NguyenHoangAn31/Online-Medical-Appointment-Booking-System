@@ -1,0 +1,103 @@
+.doctor_details_page_in_admin .main-timeline {
+    position: relative;
+}
+
+.doctor_details_page_in_admin .main-timeline::after {
+    content: "";
+    position: absolute;
+    width: 6px;
+    background-color: #939597;
+    top: 0;
+    bottom: 0;
+    left: 7%;
+    margin-left: -3px;
+}
+
+.doctor_details_page_in_admin .timeline {
+    position: relative;
+    background-color: inherit;
+    width: 50%;
+}
+
+.doctor_details_page_in_admin .timeline::after {
+    content: "";
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: -13px;
+    background-color: #939597;
+    border: 5px solid #f5df4d;
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.doctor_details_page_in_admin .left {
+    padding: 0px 40px 20px 0px;
+    left: 0;
+}
+
+.doctor_details_page_in_admin .right {
+    width: 90%;
+    padding: 0px 0px 20px 40px;
+    left: 7%;
+}
+
+.doctor_details_page_in_admin .left::before {
+    content: " ";
+    position: absolute;
+    top: 18px;
+    z-index: 1;
+    right: 30px;
+    border: medium solid white;
+    border-width: 10px 0 10px 10px;
+    border-color: transparent transparent transparent white;
+}
+
+.doctor_details_page_in_admin .right::before {
+    content: " ";
+    position: absolute;
+    top: 18px;
+    z-index: 1;
+    left: 30px;
+    border: medium solid white;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent white transparent transparent;
+}
+
+.doctor_details_page_in_admin .right::after {
+    left: -12px;
+}
+
+// @media screen and (max-width: 600px) {
+
+//     .doctor_details_page_in_admin .main-timeline::after {
+//         left: 31px;
+//     }
+
+//     .doctor_details_page_in_adminv .timeline {
+//         width: 100%;
+//         padding-left: 70px;
+//         padding-right: 25px;
+//     }
+
+//     .doctor_details_page_in_admin .timeline::before {
+//         left: 60px;
+//         border: medium solid white;
+//         border-width: 10px 10px 10px 0;
+//         border-color: transparent white transparent transparent;
+//     }
+
+//     .doctor_details_page_in_admin .left::after,
+//     .doctor_details_page_in_admin .right::after {
+//         left: 18px;
+//     }
+
+//     .doctor_details_page_in_admin .left::before {
+//         right: auto;
+//     }
+
+//     .doctor_details_page_in_admin .right {
+//         left: 0%;
+//     }
+// }
