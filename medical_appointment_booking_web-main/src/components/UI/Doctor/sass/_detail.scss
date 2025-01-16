@@ -1,0 +1,123 @@
+
+// Hien create 28/4/2024
+
+
+.doctor__detail_background{
+  background-color: #EFF9FE;
+}
+
+.doctor__detail_header{
+    height: 400px;
+    // border: 1px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .doctor__detail_header_left{
+      padding-left: 250px;
+    }
+    .doctor__detail_header_right{
+        text-align: center;
+        h2{
+          font-family: "Comfortaa", sans-serif;
+          color: blue;
+          font-weight: 900;
+          font-size: 40px;
+        }
+        h3{
+          font-family: "Comfortaa", sans-serif;
+          color: dimgray;
+        }
+        a{
+          margin-top: 30px;
+          font-size: 30px;
+        }
+    }
+}
+
+.doctor__detail_woking{
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  ol {
+    font-family: "Comfortaa", sans-serif;
+    margin: 32px auto;
+    line-height: 1.8;
+    list-style: none;
+    counter-reset: list-counter;
+  }
+  
+  li {
+    margin: 20px 32px;
+    position: relative;
+  }
+  
+  li::before {
+    content: counter(list-counter);
+    counter-increment: list-counter;
+    position: absolute;
+    top: 0;
+    left: -50px;
+    border: 2px solid blue;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    background: #fff;
+    transition: all 200ms ease;
+  }
+  
+  li:hover::before {
+    background: blue;
+    color: #fff;
+  }
+  
+  li::after {
+    content: "";
+    position: absolute;
+    left: -34px;
+    top: 42px;
+    height: calc(100% - 30px);
+    width: 1px;
+    background: #000;
+  }
+  
+  li:last-child::after {
+    height: calc(100% - 50px);
+  }
+}
+
+.doctor__detail_list{
+  margin-top: 50px;
+  .doctor__detail_list_title{
+    color: blue;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 50px;
+    font-family: "Comfortaa", sans-serif;
+  }
+  .card{
+    border-radius: 10px;
+  }
+  .doctor__detail_list_card{
+    font-family: "Comfortaa", sans-serif;
+    text-align: center;
+    .card-title{
+      margin-top: 20px;
+      color: blue;
+      font-weight: 900;
+    }
+    .card-title_link{
+      text-decoration: none;
+      :hover{
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.doctor__profile_image{
+  height: 380px;
+}
