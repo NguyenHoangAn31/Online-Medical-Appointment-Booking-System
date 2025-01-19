@@ -1,0 +1,45 @@
+@media screen and (max-width: 1100px) {
+
+    .header_dashboard .bread_crumb .toggle-sidebar{
+        display: none !important;
+    }
+    .content_dashboard .doctor_detail_dashboard .doctor_info , 
+    .content_dashboard .patient_detail_dashboard .patient_info 
+    {
+        gap: 0px !important;
+        flex-direction: column;
+        .info_detail{
+            width: 100% !important;
+        }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .header_dashboard{
+        justify-content: center !important;
+        .bread_crumb{
+            display: none !important;
+        }
+    }
+    .content_dashboard{
+        .feedback_detail {
+            padding: 0;
+        }
+    }
+
+}
+@media screen and (max-width: 510px) {
+    .header_dashboard{
+        .nav_info{
+            .account{
+                span{
+                    display: none !important;
+                }
+            }
+        }
+    }
+    .content_dashboard{
+        margin: 0 !important;
+        
+    }
+}
