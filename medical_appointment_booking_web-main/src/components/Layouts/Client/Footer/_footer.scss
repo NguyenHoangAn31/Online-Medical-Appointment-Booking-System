@@ -1,0 +1,11 @@
+.footer{
+    .footer__partient{
+        list-style: none !important;
+        line-height: 30px !important;
+    }
+    .menu__icons{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; 
+    }
+}
