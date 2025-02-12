@@ -1,0 +1,412 @@
+.avatar-group.mt-2 {
+	direction: ltr;
+}
+.avatar-group {
+	.tootip-img {
+		+ {
+			.tootip-img {
+				margin-left: -10px;
+			}
+		}
+	}
+}
+.tootip-img {
+	width: 24px;
+	height: 24px;
+	border-radius: 100%;
+	border: 1px solid #fff;
+	position: relative;
+	z-index: 2;
+	cursor: pointer;
+	&:hover {
+		z-index: 3;
+		cursor: pointer;
+	}
+}
+.mb-24 {
+	margin-bottom: 24px;
+}
+.number {
+	span {
+		font-weight: 600;
+		color: #8c8c8c;
+		font-size: 14px;
+	}
+	h3 {
+		font-weight: 700;
+		margin-bottom: 0px;
+		font-size: 30px;
+		small {
+			font-weight: 600;
+			font-size: 14px;
+		}
+	}
+}
+.icon-box {
+	width: 48px;
+	height: 48px;
+	text-align: center;
+	background: #1890ff;
+	color: #fff;
+	border-radius: 0.5rem;
+	margin-left: auto;
+	line-height: 55px;
+	span {
+		color: #fff;
+		font-size: 24px;
+	}
+	svg {
+		margin-top: 12px;
+	}
+}
+.h-full {
+	height: 100%;
+}
+.project-ant {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+span.blue {
+	margin-left: 5px;
+	color: #1890ff;
+	font-weight: 600;
+}
+.antd-pro-pages-dashboard-analysis-style-salesExtra {
+	a {
+		display: inline-block;
+		padding: 7px 10px;
+		color: #595959;
+		border: 1px solid #d9d9d9;
+		text-align: center;
+		border-right: 1px solid transparent;
+		&:last-child {
+			border-right: 1px solid #d9d9d9;
+			border-radius: 0px 5px 5px 0px;
+		}
+		&:first-child {
+			border-radius: 5px 0px 0px 5px;
+		}
+		&:hover {
+			color: #1890ff;
+			border: 1px solid #1890ff;
+		}
+	}
+	a.active {
+		color: #1890ff;
+		border: 1px solid #1890ff;
+	}
+}
+.ant-list-box {
+	th {
+		text-align: left;
+		border-bottom: 1px solid #0000000d;
+		padding: 8px 0px;
+		color: #8c8c8c;
+		font-size: 12px;
+		font-weight: 600;
+	}
+	td {
+		text-align: left;
+		border-bottom: 1px solid #0000000d;
+		padding: 16px 25px;
+		white-space: nowrap;
+		font-size: 12px;
+		font-weight: 600;
+	}
+	h5 {
+		font-size: 14px;
+	}
+	table {
+		tr {
+			&:hover {
+				td {
+					background: #fafafa;
+				}
+			}
+		}
+	}
+}
+.table-responsive {
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+.width-100 {
+	width: 100%;
+}
+.avatar-sm {
+	width: 25px;
+}
+.mr-10 {
+	margin-right: 10px !important;
+}
+.percent-progress {
+	span.ant-progress-text {
+		display: flex;
+		margin-top: -27px;
+		color: #8c8c8c;
+		position: relative;
+		margin-left: 0px;
+	}
+	.ant-progress-status-exception {
+		.ant-progress-text {
+			color: #ff4d4f;
+		}
+	}
+	.ant-progress-bg {
+		height: 3px !important;
+	}
+}
+.uploadfile {
+	margin-top: 15px;
+	padding-left: 24px;
+	padding-right: 24px;
+	.ant-upload.ant-upload-select {
+		display: block;
+	}
+}
+.uploadfile.pb-15 {
+	padding-bottom: 16px;
+}
+.uploadfile.shadow-none {
+	.ant-upload.ant-upload-select.ant-upload-select-text {
+		.ant-btn.ant-full-box {
+			box-shadow: none;
+		}
+	}
+}
+button.ant-btn.ant-btn-dashed.ant-full-box {
+	svg {
+		width: 16px;
+		height: 16px;
+	}
+}
+.ant-full-box {
+	width: 100%;
+	border: 1px dashed #d9d9d9;
+	padding: 10px;
+	height: auto;
+	color: #141414;
+	border-radius: 10px;
+}
+.timeline-box {
+	h5 {
+		margin-bottom: 0px;
+		font-weight: 700;
+	}
+}
+.ant-typography.lastweek {
+	color: #8c8c8c;
+	font-weight: 600;
+}
+.bnb2 {
+	color: #52c41a;
+	font-weight: 700;
+}
+.timelinelist {
+	h5 {
+		font-size: 14px;
+		font-weight: 600;
+	}
+	span {
+		color: #8c8c8c;
+		font-size: 12px;
+	}
+}
+.col-content {
+	flex-grow: 1;
+	padding: 24px;
+	margin-right: 0;
+	border-radius: 8px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.p-20 {
+	padding: "0px 20px 0px 0px";
+}
+.ant-muse {
+	span {
+		color: #8c8c8c;
+		font-weight: 600;
+	}
+	h5 {
+		margin: 0px 0px 15px !important;
+		font-size: 20px;
+	}
+}
+.card-credit {
+	.card-footer {
+		display: flex;
+		align-items: flex-end;
+		h6 {
+			margin-bottom: 0;
+			font-weight: 700;
+		}
+		p {
+			margin-bottom: 0;
+		}
+	}
+	.ant-card-body {
+		padding-top: 15px;
+	}
+}
+.icon-move-right {
+	.anticon-right {
+		color: #40a9ff;
+		margin-left: 2px;
+	}
+	color: #1890ff;
+	display: block;
+}
+.gradent {
+	.icon-move-right {
+		color: #fff;
+		color: #fff;
+		.anticon-right {
+			color: #fff;
+			color: #fff;
+		}
+	}
+	background: url("../assets/images/dashboard/info-card-2.jpg") no-repeat center top;
+	background-size: cover;
+	padding: 15px;
+	border-radius: 15px;
+	color: #fff;
+	h5 {
+		color: #fff;
+	}
+	.ant-typography {
+		color: #fff;
+		font-size: 20px;
+	}
+}
+.text-right {
+	text-align: right;
+}
+.border10 {
+	border-radius: 10px;
+}
+.card-content {
+	p {
+		font-size: 16px;
+	}
+}
+small.redtext {
+	color: red;
+}
+.linechart {
+	h5 {
+		font-weight: 700;
+		margin: 0px;
+	}
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.sales {
+	ul {
+		margin: 0px;
+		padding: 0px;
+		list-style: none;
+		li {
+			&:first-child {
+				span.anticon {
+					color: #b37feb;
+				}
+			}
+			&:last-child {
+				span.anticon {
+					color: #1890ff;
+				}
+			}
+			color: #8c8c8c;
+			margin-bottom: 3px;
+			cursor: pointer;
+			font-weight: 600;
+			font-size: 14px;
+		}
+	}
+}
+.ant-card-body {
+	padding: 16px;
+}
+.cardbody {
+	.ant-card-body {
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+}
+.ant-card.tablespace {
+	.ant-card-body {
+		padding: 0px;
+	}
+}
+.card-info-2 {
+	.ant-card-body {
+		height: 100%;
+	}
+}
+.widget-2 {
+	.ant-card-body {
+		padding: 0;
+	}
+}
+.payment-method-card.ant-card {
+	.ant-card-body {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+}
+.ant-card.ant-card-bordered.payment-method-card {
+	.ant-card-body {
+		padding-top: 16px;
+	}
+}
+.ant-invoice-card {
+	.ant-card-body {
+		padding-top: 0px;
+	}
+}
+.card-project.ant-card {
+	.ant-card-body {
+		padding: 16px 0 0;
+	}
+}
+.ant-card.criclebox {
+	box-shadow: 0px 20px 27px #0000000d;
+	border-radius: 12px;
+	.project-ant {
+		padding-left: 24px;
+		padding-right: 24px;
+	}
+	table {
+		th {
+			padding-left: 24px;
+			padding-right: 24px;
+			padding-top: 14px;
+			padding-bottom: 14px;
+		}
+	}
+}
+.bar-chart {
+	background: transparent linear-gradient(62deg, #00369e 0%, #005cfd 53%, #a18dff 100%) 0% 0% no-repeat padding-box;
+	box-shadow: 0px 4px 6px #0000001f;
+	border-radius: 8px;
+	line.apexcharts-xaxis-tick {
+		stroke: transparent;
+	}
+}
+.ant-row.ant-form-item.username {
+	.ant-col.ant-form-item-label {
+		.ant-form-item-required {
+			&:before {
+				display: none;
+			}
+		}
+		font-size: 13px;
+		font-weight: 600;
+		color: #141414;
+	}
+}
