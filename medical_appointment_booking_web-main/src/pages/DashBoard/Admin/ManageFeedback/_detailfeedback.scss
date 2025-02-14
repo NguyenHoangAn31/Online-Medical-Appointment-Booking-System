@@ -1,0 +1,116 @@
+.feedback_detail {
+    padding: 0 40px;
+
+    .timeline {
+        border-left: 1px solid hsl(0, 0%, 90%);
+        position: relative;
+        list-style: none;
+
+        .timeline-item {
+            position: relative;
+
+            &:after {
+                position: absolute;
+                display: block;
+                top: 0;
+                background-color: hsl(108, 100%, 71%);
+                ;
+                left: -38px;
+                border-radius: 50%;
+                height: 11px;
+                width: 11px;
+                content: "";
+            }
+        }
+    }
+
+    .rating_user {
+        width: 90%;
+        margin: auto;
+
+        .side {
+            float: left;
+            width: 15%;
+            margin-top: 10px;
+            div{
+                white-space: nowrap;
+            }
+        }
+
+        .middle {
+            margin-top: 10px;
+            float: left;
+            width: 70%;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .row {
+            &:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+        }
+
+        .bar-container {
+            width: 100%;
+            background-color: #f1f1f1;
+            text-align: center;
+            color: #f1f1f1;
+        }
+
+        .bar-5 {
+            height: 18px;
+            background-color: #04AA6D;
+        }
+
+        .bar-4 {
+            height: 18px;
+            background-color: #2196F3;
+        }
+
+        .bar-3 {
+            height: 18px;
+            background-color: #00bcd4;
+        }
+
+        .bar-2 {
+            height: 18px;
+            background-color: #ff9800;
+        }
+
+        .bar-1 {
+            height: 18px;
+            background-color: #f44336;
+        }
+
+    }
+
+    .feedback {
+
+        .image_patient,
+        .option {
+            width: 10%;
+
+        }
+
+        .comment_patient {
+            width: 80%;
+        }
+
+        .option {
+            cursor: pointer;
+            font-weight: bold;
+            text-align: end;
+            user-select: none;
+            align-self: end;
+
+        }
+
+    }
+
+
+}
