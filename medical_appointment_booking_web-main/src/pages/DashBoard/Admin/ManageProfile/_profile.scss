@@ -1,0 +1,62 @@
+.profile {
+    display: flex;
+    gap: 50px;
+
+    .infor,
+    .tab {
+        background-color: white;
+    }
+
+    .infor {
+        .photo {
+            img {
+                border-radius: 50%;
+                object-fit: cover;
+                margin-bottom: 15px;
+            }
+        }
+
+        .item {
+            margin-bottom: 20px;
+
+            p:first-of-type {
+                color: #565f68;
+            }
+
+            p {
+                margin-bottom: 0px;
+            }
+
+            .button_social {
+                display: flex;
+                gap: 15px;
+            }
+
+            .button_social span {
+                color: white;
+            }
+        }
+    }
+
+    .tab {
+        border-radius: 8px;
+        width: 100%;
+
+        .ant-tabs-nav {
+            padding-left: 25px;
+        }
+
+        .ant-tabs-content-holder {
+            padding: 25px
+        }
+    }
+
+    .steamline {
+        .sl-item {
+            .sl-left{
+                margin-left: -20px;
+            }
+        }
+    }
+
+}
