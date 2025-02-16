@@ -1,0 +1,29 @@
+@import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
+
+@import '../sass/reset';
+@import '../sass/variables';
+@import '../sass/global';
+
+
+// Hien Create(List - Detail) - 28/4/2024
+@import '../../src/components/UI/Doctor/sass/list';
+@import '../../src/components/UI/Doctor/sass/detail';
+
+
+@import '../components/Layouts/DashBoard/dashboard';
+@import '../components/Layouts/Client/Header/header';
+@import '../components/Layouts/Client/Footer/footer';
+@import '../components/UI/Home/Home';
+
+
+//An imported in 8/5
+@import '../pages/DashBoard/Admin/ManageFeedback/detailfeedback';
+@import '../pages/DashBoard/Admin/dashboard';
+@import '../pages/DashBoard/Admin/ManageProfile/profile';
+@import '../pages/DashBoard/Admin/ManageSchedule/schedule';
+@import '../pages/DashBoard/Admin/ManageUser/doctordetailspageinadmin';
+@import '../pages/DashBoard/Admin/ManageAppointment/appointmentdetal';
+
+@import '../sass/booking';
+@import '../sass/service';
+
