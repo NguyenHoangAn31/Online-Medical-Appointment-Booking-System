@@ -1,0 +1,203 @@
+.main-app {
+    min-height: 650px;
+}
+.btn__login{
+    background-color: #000af7;
+    color: #fff;
+    padding: 15px 30px;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover{
+        background-color: #000af7;
+        color: #fff;
+    }
+}
+
+.login__title{
+    font-size:  40px;
+    font-weight: bold;
+    color: #000af7;
+}
+.login__title_sup{
+    font-size:  30px;
+    font-weight: bold;
+    color: #000af7;
+}
+
+.input__username{
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 2px solid #ff61ba;
+    &::placeholder{
+        font-style: italic;
+        font-size: 14px;
+        font-weight: 400;
+        color: #CECECE;
+    }
+    &:focus{
+        border: 2px solid #ff61ba;
+    }
+}
+
+.input__keycode-total{
+    display: flex;
+    justify-content: center;
+}
+
+.input__keycode{
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 18px;
+    margin-left: 5px;
+    margin-right: 5px;
+    &::placeholder{
+        font-style: italic;
+        font-size: 14px;
+        font-weight: 400;
+        color: #CECECE;
+    }
+    &:focus{
+        border: 2px solid #ff61ba;
+    }
+}
+
+
+.btn__submit{
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 2px solid #FFF;
+    background-color: #ff61ba;
+    box-shadow: var(--boxShadow); 
+    color: #FFF;
+}
+
+section{
+    margin-top: 60px;
+    margin-bottom: 60px;
+    padding: 30px 0;
+}
+
+.toaster{
+    position: fixed;
+    right: 10px;
+    bottom: 30px;
+    width: 300px;
+    height: auto;
+    z-index: 100px;
+}
+
+//Css department
+.main__title{
+    font-size: 30px;
+    font-weight: bold;
+    color: #000;
+    position: relative;
+    &::after{
+        position: absolute;
+        content: '';
+        width: 50%;
+        height: 4px;
+        bottom: -5%;
+        left: 0;
+        background-color: #000;
+    }
+}
+// .slick-prev, .slick-next{
+//     background: #ff61ba !important;
+// }
+.slick-slide{
+    height: auto !important;
+}
+.slick-slide > div{
+    margin: 0 10px;
+}
+.slick-dots {
+    bottom: -45px !important;
+}
+.slick-dots li button:before{
+    font-size: 20px;
+}
+.card__department{
+    width: 90%;
+    height: 200px;
+    border-radius: 20px;
+    box-shadow: var(--boxShadow);
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e8e1e1;
+    .card__department_img{
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background-color: #fff;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: var(--boxShadow);
+        .image__icon{
+            width: 50px;
+            //color: #FFF;
+        }
+
+    }
+    .card__department_name{
+        font-size: 16px;
+        font-weight: bolder;
+    }
+}
+
+.btn__service{
+    padding: 10px 30px;
+    background-color: #fff;
+    border-radius:10px;
+    color: #000af7;
+    // text-decoration: dashed;
+    cursor: pointer;
+    margin-right: 30px;
+}
+
+// .slick-prev:before, 
+//   .slick-next:before{
+//      color: #fff !important;
+//   }
+
+
+
+// Sidebar
+.sidebar{
+    width: 100%;
+    height: 500px;
+    background-color: #efdfdf;
+    border-radius: 20px;
+    padding: 20px 0px;
+    .item{
+      list-style: none; 
+      padding: 10px 20px;
+      .link{
+        text-decoration: none;
+        color: #000;
+        text-transform: uppercase;
+      }
+    }
+    .item.active{
+        background-color: #fff;
+    }
+}
+
