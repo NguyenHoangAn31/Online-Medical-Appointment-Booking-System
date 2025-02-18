@@ -52,56 +52,46 @@ public class DepartmentController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping(value = "/{slug}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DepartmentDto> findBySlug(@PathVariable("slug") String slug) {
-        Optional<DepartmentDto> result = departmentService.findBySlug(slug);
-        if (result.isPresent()) {
-            return ResponseEntity.ok(result.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/{slug}")
+    public ResponseEntity<DepartmentDto> findBySlug(@PathVariable String slug) {
+        return departmentService.findBySlug(slug)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deleteById(@PathVariable("id") int id) throws IOException {
-        Optional<DepartmentDto> result = departmentService.findById(id);
-        boolean status = result.get().isStatus();
-        if (status == true) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Department is Active");
-        }
-        String pathIcon = result.get().getIcon();
-        boolean deleted = departmentService.deleteById(id);
-        if (deleted) {
-            if (pathIcon != null) {
-                fileService.deleteFile("department", pathIcon);
-            }
-        }
-        if (deleted) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<?> deleteById(@PathVariable("id") int id) {
+        Optional<DepartmentDto> department = departmentService.findById(id);
+        if (department.isPresent() && department.get().isStatus()) {
+            return ResponseEntity.badRequest().build();
         }
 
+        boolean deleted = departmentService.deleteById(id);
+        if (deleted && department.isPresent() && department.get().getIcon() != null) {
+            fileService.deleteFile("department", department.get().getIcon());
+        }
+
+        return deleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DepartmentDto> createDepartment(
-            @RequestParam("icon") MultipartFile photo,
+            @RequestParam("icon") MultipartFile iconFile,
             @RequestParam("department") String departmentJson) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         DepartmentDto departmentDto = objectMapper.readValue(departmentJson, DepartmentDto.class);
 
-        // Tạo URL slug từ trường name
+        // Generate URL slug from the name
         String slug = generateSlug(departmentDto.getName());
         departmentDto.setUrl(slug);
 
-        // Xử lý hình ảnh
-        departmentDto.setIcon(fileService.uploadFile("department", photo));
+        // Handle the icon file
+        departmentDto.setIcon(fileService.uploadFile("department", iconFile));
 
-        DepartmentDto result = departmentService.save(departmentDto);
-        if (result != null) {
-            return ResponseEntity.ok(result); // Trả về DepartmentDto đã tạo thành công
+        DepartmentDto savedDepartment = departmentService.save(departmentDto);
+        if (savedDepartment != null) {
+            return ResponseEntity.ok(savedDepartment);
         } else {
             return ResponseEntity.notFound().build();
         }
