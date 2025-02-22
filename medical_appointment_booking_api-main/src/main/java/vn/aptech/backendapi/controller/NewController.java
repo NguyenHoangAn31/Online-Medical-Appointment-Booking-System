@@ -8,14 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,101 +34,80 @@ public class NewController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<NewsDto> findById(@PathVariable("id") int id) {
+    public ResponseEntity<?> findById(@PathVariable("id") int id) {
         Optional<NewsDto> result = newsService.findById(id);
-        if (result.isPresent()) {
-            return ResponseEntity.ok(result.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return result.map(ResponseEntity::ok)
+                     .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("News not found"));
     }
 
     @GetMapping(value = "/find_for_update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<NewsCreateDto> findByIdForUpdate(@PathVariable("id") int id) {
+    public ResponseEntity<?> findByIdForUpdate(@PathVariable("id") int id) {
         Optional<NewsCreateDto> result = newsService.findByIdForUpdate(id);
-        if (result.isPresent()) {
-            return ResponseEntity.ok(result.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return result.map(ResponseEntity::ok)
+                     .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("News not found for update"));
     }
 
     @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteById(@PathVariable("id") int id) throws IOException {
         Optional<NewsDto> result = newsService.findById(id);
-        int status = result.get().getStatus();
-        if (status == 1) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("News is Active");
+        if (result.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("News not found");
         }
+        if (result.get().getStatus() == 1) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cannot delete active news");
+        }
+        
         String pathImage = result.get().getImage();
         boolean deleted = newsService.deleteById(id);
-        if (deleted) {
-            if (pathImage != null) {
-                fileService.deleteFile("News", pathImage);
-            }
+        if (deleted && pathImage != null) {
+            fileService.deleteFile("News", pathImage);
         }
-        if (deleted) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok("News deleted successfully");
     }
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<NewsCreateDto> Create(@RequestParam("image") MultipartFile photo,
-            @RequestParam("news") String news) throws IOException {
-
-        // xử lý NewsCreateDto
+    public ResponseEntity<?> create(@RequestParam("image") MultipartFile photo,
+                                     @RequestParam("news") String news) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        NewsCreateDto NewsCreateDto = objectMapper.readValue(news, NewsCreateDto.class);
-        // xử lý hình ảnh
-        System.out.println(NewsCreateDto.getDayCreate());
-        NewsCreateDto.setImage(fileService.uploadFile("news", photo));
-        NewsCreateDto result = newsService.save(NewsCreateDto);
-        if (result != null) {
-            return ResponseEntity.ok(result);
-        } else {
-            return ResponseEntity.notFound().build();
+        NewsCreateDto newsCreateDto = objectMapper.readValue(news, NewsCreateDto.class);
+        
+        if (photo.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Image is required");
         }
-
+        
+        newsCreateDto.setImage(fileService.uploadFile("news", photo));
+        NewsCreateDto result = newsService.save(newsCreateDto);
+        return ResponseEntity.ok(result);
     }
 
     @PutMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<NewsCreateDto> updateTutorial(@PathVariable("id") int id,
-            @RequestParam(name = "image", required = false) MultipartFile photo,
-            @RequestParam("news") String news) throws IOException {
-        System.out.println(news);
-
-        // xử lý NewsCreateDto
+    public ResponseEntity<?> update(@PathVariable("id") int id,
+                                    @RequestParam(name = "image", required = false) MultipartFile photo,
+                                    @RequestParam("news") String news) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        NewsCreateDto NewsCreateDto = objectMapper.readValue(news,
-                NewsCreateDto.class);
-        // xử lý hình ảnh
+        NewsCreateDto newsCreateDto = objectMapper.readValue(news, NewsCreateDto.class);
+        
         if (photo != null) {
-            // nếu ảnh tồn tại thì xóa
-            if (NewsCreateDto.getImage() != null) {
-                fileService.deleteFile("news", NewsCreateDto.getImage());
+            if (newsCreateDto.getImage() != null) {
+                fileService.deleteFile("news", newsCreateDto.getImage());
             }
-            NewsCreateDto.setImage(fileService.uploadFile("news", photo));
-
+            newsCreateDto.setImage(fileService.uploadFile("news", photo));
         }
-        NewsCreateDto.setId(id);
-        NewsCreateDto updatedNews = newsService.save(NewsCreateDto);
-        if (updatedNews != null) {
-
-            return ResponseEntity.ok(updatedNews);
-        }
-        return ResponseEntity.notFound().build();
-
+        
+        newsCreateDto.setId(id);
+        NewsCreateDto updatedNews = newsService.save(newsCreateDto);
+        return updatedNews != null ? ResponseEntity.ok(updatedNews) : ResponseEntity.status(HttpStatus.NOT_FOUND).body("News update failed");
     }
 
     @PutMapping(value = "/changestatus/{id}/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> changeStatusNews(@PathVariable("id") int id,@PathVariable("status") int status) {
-        boolean changed = newsService.changeStatus(id,status);
-        if (changed) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<?> changeStatus(@PathVariable("id") int id, @PathVariable("status") int status) {
+        boolean changed = newsService.changeStatus(id, status);
+        return changed ? ResponseEntity.ok("Status changed successfully") : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Failed to change status");
+    }
+    
+    @GetMapping(value = "/status/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<NewsDto>> findByStatus(@PathVariable("status") int status) {
+        List<NewsDto> result = newsService.findByStatus(status);
+        return ResponseEntity.ok(result);
     }
 }
