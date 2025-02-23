@@ -1,50 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import DoctorItem from '../../components/Card/DoctorItem';
 import { Pagination } from 'react-bootstrap';
 
+const doctorsPerPage = 8; // Di chuyển ra ngoài component để tránh re-render
+
 const Doctor = () => {
   const [doctors, setDoctors] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [doctorsPerPage] = useState(8);
 
   useEffect(() => {
-    fetchDoctors();
+    let isMounted = true;
+    axios.get(`https://medical-appointment-booking-api-production.up.railway.app/api/doctor/all`)
+      .then(response => {
+        if (isMounted) {
+          setDoctors(response.data);
+        }
+      })
+      .catch(error => console.error("Error fetching doctors:", error));
+
+    return () => { isMounted = false }; // Cleanup tránh memory leak
   }, []);
 
-  const fetchDoctors = async () => {
-    const response = await axios.get(`https://medical-appointment-booking-api-production.up.railway.app/api/doctor/all`);
-    const doctors = response.data;
-    // console.log(doctors);
-    setDoctors(doctors);
-  };
+  // Tính toán danh sách doctor cho trang hiện tại
+  const currentDoctors = useMemo(() => {
+    const indexOfLastDoctor = currentPage * doctorsPerPage;
+    const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
+    return doctors.slice(indexOfFirstDoctor, indexOfLastDoctor);
+  }, [doctors, currentPage]);
 
-  // Get current doctors
-  const indexOfLastDoctor = currentPage * doctorsPerPage;
-  const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
-  const currentDoctors = doctors.slice(indexOfFirstDoctor, indexOfLastDoctor);
-
-  // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // Generate page numbers
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(doctors.length / doctorsPerPage); i++) {
-    pageNumbers.push(i);
-  }
-
+  // Tạo danh sách số trang
+  const pageNumbers = useMemo(() => {
+    return Array.from({ length: Math.ceil(doctors.length / doctorsPerPage) }, (_, i) => i + 1);
+  }, [doctors]);
 
   return (
     <>
-      {/* Hien create: 28/4/2024 */}
-      {/* <ListDoctor /> */}
       <div className="container mt-5">
         <h1>List Doctor</h1>
         <hr />
         <div className="row">
           {currentDoctors.map((item, index) => (
-            <div className="col-md-3">
-              <DoctorItem item={item} key={index} />
+            <div className="col-md-3" key={index}>
+              <DoctorItem item={item} />
             </div>
           ))}
         </div>
@@ -52,7 +50,7 @@ const Doctor = () => {
           <div className="col-md-12">
             <Pagination>
               {pageNumbers.map(number => (
-                <Pagination.Item key={number} active={number === currentPage} onClick={() => paginate(number)}>
+                <Pagination.Item key={number} active={number === currentPage} onClick={() => setCurrentPage(number)}>
                   {number}
                 </Pagination.Item>
               ))}
@@ -64,4 +62,4 @@ const Doctor = () => {
   );
 }
 
-export default Doctor
+export default Doctor;
