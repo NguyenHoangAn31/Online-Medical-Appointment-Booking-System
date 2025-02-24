@@ -26,20 +26,25 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<DepartmentDto> findAll() {
-        List<Integer> departmentIdsWithDoctors = departmentRepository.findDepartmentIdsWithDoctors();
-        List<Department> departments = departmentRepository.findAll();
-        for (Department department : departments) {
-            if (departmentIdsWithDoctors.contains(department.getId())) {
-                department.setStatus(true);
-            } else {
-                department.setStatus(false);
-            }
-            departmentRepository.save(department);
+public List<DepartmentDto> findAll() {
+    List<Integer> departmentIdsWithDoctors = departmentRepository.findDepartmentIdsWithDoctors();
+    List<Department> departments = departmentRepository.findAll();
+    boolean updated = false;
+
+    for (Department department : departments) {
+        boolean shouldBeActive = departmentIdsWithDoctors.contains(department.getId());
+        if (department.isStatus() != shouldBeActive) {
+            department.setStatus(shouldBeActive);
+            updated = true;
         }
-        return departments.stream().map(this::toDto)
-                .collect(Collectors.toList());
     }
+
+    if (updated) {
+        departmentRepository.saveAll(departments);
+    }
+
+    return departments.stream().map(this::toDto).collect(Collectors.toList());
+}
 
     @Override
     public Optional<DepartmentDto> findBySlug(String id) {
