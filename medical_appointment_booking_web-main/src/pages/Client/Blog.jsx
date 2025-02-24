@@ -13,6 +13,8 @@ const Blog = () => {
 
   const fetchBlogs = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const response = await axios.get(
         "https://medical-appointment-booking-api-production.up.railway.app/api/news/all"
       );
@@ -28,27 +30,30 @@ const Blog = () => {
   };
 
   return (
-    <>
-      <div className="container mt-5">
+    <div className="container mt-5">
+      <div className="d-flex justify-content-between align-items-center mb-3">
         <h1>List Blog</h1>
-        <hr />
-
-        {loading && <p className="text-center">Loading blogs...</p>}
-        {error && <p className="text-danger text-center">{error}</p>}
-
-        <div className={`row ${loading ? "opacity-50" : ""}`}>
-          {blogs.length > 0 ? (
-            blogs.map((item, index) => (
-              <div className="col-md-3 mb-3" key={index}>
-                <NewsItem item={item} />
-              </div>
-            ))
-          ) : (
-            !loading && <p className="text-center">No active blogs available.</p>
-          )}
-        </div>
+        <button className="btn btn-primary" onClick={fetchBlogs} disabled={loading}>
+          {loading ? "Refreshing..." : "Refresh"}
+        </button>
       </div>
-    </>
+      <hr />
+
+      {loading && <p className="text-center">Loading blogs...</p>}
+      {error && <p className="text-danger text-center">{error}</p>}
+
+      <div className={`row ${loading ? "opacity-50" : ""}`}>
+        {blogs.length > 0 ? (
+          blogs.map((item, index) => (
+            <div className="col-md-3 mb-3" key={index}>
+              <NewsItem item={item} />
+            </div>
+          ))
+        ) : (
+          !loading && <p className="text-center">No active blogs available.</p>
+        )}
+      </div>
+    </div>
   );
 };
 
