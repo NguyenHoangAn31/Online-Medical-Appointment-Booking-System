@@ -26,71 +26,81 @@ public class NewsServiceImpl implements NewsService {
     private UserRepository userRepository;
 
     private NewsCreateDto toCreateDto(News n) {
-        NewsCreateDto NewsCreateDto = mapper.map(n, NewsCreateDto.class);
-        NewsCreateDto.setUser_id(n.getUser().getId());
-        return NewsCreateDto;
+        NewsCreateDto newsCreateDto = mapper.map(n, NewsCreateDto.class);
+        newsCreateDto.setUser_id(n.getUser().getId());
+        return newsCreateDto;
     }
 
     private NewsDto toDto(News n) {
-        NewsDto NewsDto = mapper.map(n, NewsDto.class);
-        NewsDto.setCreator_email(n.getUser().getEmail());
-        NewsDto.setCreator_id(n.getUser().getId());
-        return NewsDto;
+        NewsDto newsDto = mapper.map(n, NewsDto.class);
+        newsDto.setCreator_email(n.getUser().getEmail());
+        newsDto.setCreator_id(n.getUser().getId());
+        return newsDto;
     }
 
     @Override
     public List<NewsDto> findAll() {
-        List<News> news = newsRepository.findAll();
-        return news.stream().map(this::toDto)
+        return newsRepository.findAll().stream()
+                .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public Optional<NewsDto> findById(int id) {
-        Optional<News> result = newsRepository.findById(id);
-        return result.map(this::toDto);
+        return newsRepository.findById(id).map(this::toDto);
     }
+
     @Override
     public Optional<NewsCreateDto> findByIdForUpdate(int id) {
-        Optional<News> result = newsRepository.findById(id);
-        return result.map(this::toCreateDto);
+        return newsRepository.findById(id).map(this::toCreateDto);
     }
 
     @Override
     public NewsCreateDto save(NewsCreateDto dto) {
-        News n = mapper.map(dto, News.class);
+        News news = mapper.map(dto, News.class);
 
-        if (dto.getUser_id() > 0) {
-            Optional<User> u = userRepository.findById(dto.getUser_id());
-            u.ifPresent(doctor -> n.setUser(mapper.map(u, User.class)));
-        }
-        News result = newsRepository.save(n);
+        userRepository.findById(dto.getUser_id()).ifPresent(news::setUser);
+
+        News result = newsRepository.save(news);
         return toCreateDto(result);
     }
 
     @Override
     public boolean deleteById(int id) {
-        try {
+        if (newsRepository.existsById(id)) {
             newsRepository.deleteById(id);
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     @Override
-    public boolean changeStatus(int id,int status){
-        News f = newsRepository.findById(id).get();
-        boolean newStatus = (status == 1) ? false : true; 
-        f.setStatus(newStatus);
-        try {
-            newsRepository.save(f);
+    public boolean changeStatus(int id, int status) {
+        return newsRepository.findById(id).map(news -> {
+            news.setStatus(status == 1);
+            newsRepository.save(news);
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        }).orElse(false);
     }
 
+    @Override
+    public Optional<NewsCreateDto> update(int id, NewsCreateDto dto) {
+        return newsRepository.findById(id).map(news -> {
+            news.setTitle(dto.getTitle());
+            news.setContent(dto.getContent());
+            news.setStatus(dto.getStatus());
+
+            userRepository.findById(dto.getUser_id()).ifPresent(news::setUser);
+
+            News updatedNews = newsRepository.save(news);
+            return toCreateDto(updatedNews);
+        });
+    }
+
+    @Override
+    public List<NewsDto> findByCreatorId(int userId) {
+        return newsRepository.findByUserId(userId).stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
 }
