@@ -5,18 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import vn.aptech.backendapi.dto.DoctorDto;
 import vn.aptech.backendapi.dto.Feedback.FeedbackDto;
-import vn.aptech.backendapi.service.Doctor.DoctorService;
 import vn.aptech.backendapi.service.Feedback.FeedbackService;
 
 @RestController
@@ -25,63 +16,52 @@ public class FeedbackController {
     @Autowired
     private FeedbackService feedbackService;
 
-    @Autowired
-    private DoctorService doctorService;
-
-
+    // Lấy tất cả feedbacks
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<DoctorDto>> findAll() {
-        List<DoctorDto> result = doctorService.findAll();
+    public ResponseEntity<List<FeedbackDto>> findAll() {
+        List<FeedbackDto> result = feedbackService.findAll();
         return ResponseEntity.ok(result);
     }
 
-
-    @GetMapping(value = "/{doctorId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DoctorDto> findByDoctorId(@PathVariable("doctorId") int doctorId) {
-        DoctorDto result = feedbackService.feedbackDetail(doctorId);
-        if (result != null) {
-            return ResponseEntity.ok(result);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    // Lấy feedback theo ID
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<FeedbackDto> findById(@PathVariable("id") int id) {
+        FeedbackDto result = feedbackService.findById(id);
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.notFound().build();
     }
+
+    // Lấy danh sách feedback theo doctorId
     @GetMapping(value = "/doctor/{doctorId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<FeedbackDto>> findFeedbackByDoctorId(@PathVariable("doctorId") int doctorId) {
         List<FeedbackDto> result = feedbackService.feedbackDetailDoctorId(doctorId);
-        if (!result.isEmpty()) {
-            return ResponseEntity.ok(result);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return result.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(result);
     }
 
+    // Tạo feedback mới
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<FeedbackDto> Create(@RequestBody FeedbackDto dto) {
+    public ResponseEntity<FeedbackDto> create(@RequestBody FeedbackDto dto) {
         FeedbackDto result = feedbackService.save(dto);
-        if (result != null) {
-            return ResponseEntity.ok(result);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.badRequest().build();
     }
 
+    // Cập nhật feedback
+    @PutMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<FeedbackDto> updateFeedback(@PathVariable("id") int id, @RequestBody FeedbackDto dto) {
+        FeedbackDto updated = feedbackService.update(id, dto);
+        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
+    }
+
+    // Thay đổi trạng thái feedback
     @PutMapping(value = "/changestatus/{id}/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> changeStatusFeedback(@PathVariable("id") int id,@PathVariable("status") int status) {
-        boolean changed = feedbackService.changeStatus(id,status);
-        if (changed) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<String> changeStatusFeedback(@PathVariable("id") int id, @PathVariable("status") int status) {
+        boolean changed = feedbackService.changeStatus(id, status);
+        return changed ? ResponseEntity.ok("Status updated successfully") : ResponseEntity.notFound().build();
     }
 
+    // Xóa feedback
     @DeleteMapping(value = "/delete/{feedbackId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<FeedbackDto> delteFeedback(@PathVariable("feedbackId") int feedbackId) {
+    public ResponseEntity<String> deleteFeedback(@PathVariable("feedbackId") int feedbackId) {
         boolean deleted = feedbackService.deleteById(feedbackId);
-        if (deleted) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return deleted ? ResponseEntity.ok("Feedback deleted successfully") : ResponseEntity.notFound().build();
     }
 }
