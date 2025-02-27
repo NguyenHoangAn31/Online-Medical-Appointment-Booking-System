@@ -1,20 +1,29 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 const Register = () => {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
+    const [loadingPhone, setLoadingPhone] = useState(false);
+    const [loadingGmail, setLoadingGmail] = useState(false);
 
-    const handleNavigate = (path) => {
+    const handleNavigate = (path, setLoading) => {
         setLoading(true);
         setTimeout(() => {
             navigate(path);
-        }, 500); // Thêm hiệu ứng chuyển trang
+            setLoading(false);
+            toast.success('Redirected successfully!');
+        }, 500);
     };
 
     return (
-        <div className='container mt-5'>
+        <motion.div 
+            className='container mt-5'
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+        >
             <div className="row align-items-center">
                 {/* Cột bên trái */}
                 <div className="col-md-5">
@@ -28,20 +37,20 @@ const Register = () => {
                                 whileTap={{ scale: 0.9 }}
                                 whileHover={{ scale: 1.05 }}
                                 className='btn__submit w-100'
-                                onClick={() => handleNavigate('/signupphone')}
-                                disabled={loading}
+                                onClick={() => handleNavigate('/signupphone', setLoadingPhone)}
+                                disabled={loadingPhone}
                             >
-                                {loading ? 'Loading...' : 'Login by Phone Number'}
+                                {loadingPhone ? 'Loading...' : 'Login by Phone Number'}
                             </motion.button>
 
                             <motion.button 
                                 whileTap={{ scale: 0.9 }}
                                 whileHover={{ scale: 1.05 }}
                                 className='btn__submit w-100 mt-3'
-                                onClick={() => handleNavigate('/signupgmail')}
-                                disabled={loading}
+                                onClick={() => handleNavigate('/signupgmail', setLoadingGmail)}
+                                disabled={loadingGmail}
                             >
-                                {loading ? 'Loading...' : 'Login by Gmail Account'}
+                                {loadingGmail ? 'Loading...' : 'Login by Gmail Account'}
                             </motion.button>
                         </div>
 
@@ -56,7 +65,7 @@ const Register = () => {
                     <img src="/images/bg_signup.png" alt="Signup Background" className='img-fluid' />
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 
