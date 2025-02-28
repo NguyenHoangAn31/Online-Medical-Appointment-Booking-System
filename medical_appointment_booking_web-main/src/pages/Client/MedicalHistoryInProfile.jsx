@@ -10,14 +10,21 @@ function MedicalHistoryInProfile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchDoctor, setSearchDoctor] = useState("");
 
   const fetchHistory = async () => {
     setLoading(true);
     setError(null);
     try {
       const response = await axios.get(API_URL);
-      setHistory(response.data);
-      setFilteredHistory(response.data);
+      if (response.data.length === 0) {
+        setError("Không có dữ liệu lịch sử y tế.");
+        setHistory([]);
+        setFilteredHistory([]);
+      } else {
+        setHistory(response.data);
+        setFilteredHistory(response.data);
+      }
     } catch (err) {
       setError("Không thể tải dữ liệu lịch sử y tế.");
       console.error(err);
@@ -32,16 +39,19 @@ function MedicalHistoryInProfile() {
 
   // Xử lý tìm kiếm
   useEffect(() => {
-    if (searchTerm.trim() === "") {
-      setFilteredHistory(history);
-    } else {
-      setFilteredHistory(
-        history.filter((item) =>
-          item.diagnosis.toLowerCase().includes(searchTerm.toLowerCase())
-        )
+    let filtered = history;
+    if (searchTerm.trim()) {
+      filtered = filtered.filter((item) =>
+        item.diagnosis.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-  }, [searchTerm, history]);
+    if (searchDoctor.trim()) {
+      filtered = filtered.filter((item) =>
+        item.doctor.toLowerCase().includes(searchDoctor.toLowerCase())
+      );
+    }
+    setFilteredHistory(filtered);
+  }, [searchTerm, searchDoctor, history]);
 
   if (loading) return <div className="text-center p-4">Đang tải dữ liệu...</div>;
   if (error) return <div className="text-red-500 p-4">{error}</div>;
@@ -50,13 +60,22 @@ function MedicalHistoryInProfile() {
     <div className="p-4 bg-white shadow-md rounded-lg">
       <h2 className="text-xl font-semibold mb-4">Lịch sử khám bệnh</h2>
 
-      {/* Ô tìm kiếm */}
+      {/* Ô tìm kiếm theo chuẩn đoán */}
       <input
         type="text"
         placeholder="Tìm kiếm theo chuẩn đoán..."
         className="p-2 border rounded w-full mb-3"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+      />
+
+      {/* Ô tìm kiếm theo bác sĩ */}
+      <input
+        type="text"
+        placeholder="Tìm kiếm theo bác sĩ..."
+        className="p-2 border rounded w-full mb-3"
+        value={searchDoctor}
+        onChange={(e) => setSearchDoctor(e.target.value)}
       />
 
       {/* Nút tải lại */}
@@ -75,7 +94,7 @@ function MedicalHistoryInProfile() {
               className="p-2 border-b cursor-pointer hover:bg-gray-100"
               onClick={() => setSelectedHistory(item)}
             >
-              <span className="font-medium">{item.date}</span> - {item.diagnosis}
+              <span className="font-medium">{item.date}</span> - {item.diagnosis} (Bác sĩ: {item.doctor})
             </li>
           ))
         ) : (
@@ -86,6 +105,7 @@ function MedicalHistoryInProfile() {
       {selectedHistory && (
         <div className="mt-4 p-4 border rounded-lg bg-gray-50">
           <h3 className="text-lg font-semibold">Chi tiết khám bệnh</h3>
+          <p><strong>Bệnh nhân:</strong> {selectedHistory.patientName}</p>
           <p><strong>Ngày:</strong> {selectedHistory.date}</p>
           <p><strong>Chuẩn đoán:</strong> {selectedHistory.diagnosis}</p>
           <p><strong>Bác sĩ:</strong> {selectedHistory.doctor}</p>
