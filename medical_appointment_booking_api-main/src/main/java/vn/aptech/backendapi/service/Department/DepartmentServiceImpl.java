@@ -7,12 +7,15 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
 import vn.aptech.backendapi.dto.DepartmentDto;
 import vn.aptech.backendapi.entities.Department;
 import vn.aptech.backendapi.repository.DepartmentRepository;
 
 @Service
+@Slf4j
 public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
@@ -26,67 +29,77 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-public List<DepartmentDto> findAll() {
-    List<Integer> departmentIdsWithDoctors = departmentRepository.findDepartmentIdsWithDoctors();
-    List<Department> departments = departmentRepository.findAll();
-    boolean updated = false;
+    @Transactional
+    public List<DepartmentDto> findAll() {
+        List<Integer> departmentIdsWithDoctors = departmentRepository.findDepartmentIdsWithDoctors();
+        List<Department> departments = departmentRepository.findAll();
+        boolean updated = false;
 
-    for (Department department : departments) {
-        boolean shouldBeActive = departmentIdsWithDoctors.contains(department.getId());
-        if (department.isStatus() != shouldBeActive) {
-            department.setStatus(shouldBeActive);
-            updated = true;
+        for (Department department : departments) {
+            boolean shouldBeActive = departmentIdsWithDoctors.contains(department.getId());
+            if (department.isStatus() != shouldBeActive) {
+                department.setStatus(shouldBeActive);
+                updated = true;
+            }
         }
-    }
 
-    if (updated) {
-        departmentRepository.saveAll(departments);
-    }
+        if (updated) {
+            departmentRepository.saveAll(departments);
+        }
 
-    return departments.stream().map(this::toDto).collect(Collectors.toList());
-}
+        return departments.stream().map(this::toDto).collect(Collectors.toList());
+    }
 
     @Override
     public Optional<DepartmentDto> findBySlug(String id) {
-        Optional<Department> result = departmentRepository.findByUrl(id);
-        return result.map(this::toDto);
+        return departmentRepository.findByUrl(id).map(this::toDto);
     }
+
     @Override
     public Optional<DepartmentDto> findById(int id) {
-        Optional<Department> result = departmentRepository.findById(id);
-        return result.map(this::toDto);
+        return departmentRepository.findById(id).map(this::toDto);
     }
 
     @Override
+    @Transactional
     public DepartmentDto save(DepartmentDto dto) {
-        Department s = mapper.map(dto, Department.class);
-        Department result = departmentRepository.save(s);
-        return toDto(result);
+        Department entity = mapper.map(dto, Department.class);
+        Department savedEntity = departmentRepository.save(entity);
+        return toDto(savedEntity);
     }
 
     @Override
+    @Transactional
     public boolean deleteById(int id) {
         try {
-            departmentRepository.deleteById(id);
-            return true;
+            if (departmentRepository.existsById(id)) {
+                departmentRepository.deleteById(id);
+                return true;
+            } else {
+                log.warn("Không tìm thấy khoa có ID: {}", id);
+                return false;
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Lỗi khi xóa khoa có ID {}: {}", id, e.getMessage());
             return false;
         }
     }
 
     @Override
+    @Transactional
     public boolean changeStatus(int id, int status) {
-        Department d = departmentRepository.findById(id).get();
-        boolean newStatus = (status == 1) ? false : true;
-        d.setStatus(newStatus);
-        try {
-            departmentRepository.save(d);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
+        return departmentRepository.findById(id).map(department -> {
+            department.setStatus(status != 1);
+            try {
+                departmentRepository.save(department);
+                return true;
+            } catch (Exception e) {
+                log.error("Lỗi khi thay đổi trạng thái khoa {}: {}", id, e.getMessage());
+                return false;
+            }
+        }).orElseGet(() -> {
+            log.warn("Không tìm thấy khoa có ID: {}", id);
             return false;
-        }
+        });
     }
-
 }
